@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Thông Báo</title>
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
+</head>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+
+const socket = io();
+
+socket.on(
+    "new_notification",
+    (data)=>{
+
+        alert(
+            "Thông báo mới: " +
+            data.title
+        );
+
+        location.reload();
+
+    }
+);
+
+</script>
+
+<body>
+
+<%- include("partials/sidebar") %>
+
+<div class="main">
+
+<div class="top-bar">
+
+<h1>Thông Báo</h1>
+
+<button
+class="add-btn"
+onclick="toggleModal()"
+>
+
+<i class="fa-solid fa-plus"></i>
+
+Gửi Thông Báo
+
+</button>
+
+</div>
+
+<div class="notification-list">
+
+<% notifications.forEach(item=>{ %>
+
+<div class="notification-card">
+
+<div class="notification-left">
+
+<div class="notification-icon">
+
+<% if(item.type==="announcement"){ %>
+
+<i class="fa-solid fa-bullhorn"></i>
+
+<% } %>
+
+<% if(item.type==="warning"){ %>
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+<% } %>
+
+<% if(item.type==="info"){ %>
+
+<i class="fa-solid fa-circle-info"></i>
+
+<% } %>
+
+<% if(item.type==="urgent"){ %>
+
+<i class="fa-solid fa-fire"></i>
+
+<% } %>
+
+</div>
+
+<div>
+
+<h3>
+
+<%= item.title %>
+
+</h3>
+
+<p>
+
+<%= item.message %>
+
+</p>
+
+</div>
+
+</div>
+
+<div class="notification-right">
+
+<span class="badge <%= item.type %>">
+
+<%= item.type %>
+
+</span>
+
+<div class="notification-date">
+
+<%= new Date(item.createdAt)
+.toLocaleString("vi-VN") %>
+
+</div>
+
+</div>
+
+</div>
+
+<% }) %>
+
+</div>
+
+</div>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+<div class="modal-content">
+
+<div class="modal-header">
+
+<h2>Gửi Thông Báo</h2>
+
+<button onclick="toggleModal()">
+
+×
+
+</button>
+
+</div>
+
+<form
+action="/notifications/add"
+method="POST"
+class="modal-form"
+>
+
+<input
+name="title"
+placeholder="Tiêu đề"
+required
+>
+
+<textarea
+name="message"
+placeholder="Nội dung"
+required
+></textarea>
+
+<select
+name="type"
+required
+>
+
+<option value="announcement">
+Announcement
+</option>
+
+<option value="warning">
+Warning
+</option>
+
+<option value="info">
+Info
+</option>
+
+<option value="urgent">
+Urgent
+</option>
+
+</select>
+
+<button type="submit">
+
+Gửi Thông Báo
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<script>
+
+function toggleModal(){
+
+    document
+    .getElementById("modal")
+    .classList
+    .toggle("show");
+
+}
+
+</script>
+
+</body>
+
+</html>

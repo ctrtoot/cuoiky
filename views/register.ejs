@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Đăng Ký</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+    <div class="auth-container">
+
+        <div class="auth-card">
+
+            <h1>Đăng Ký</h1>
+
+            <form action="/register" method="POST">
+
+                <input
+                    type="text"
+                    name="fullName"
+                    placeholder="Họ tên"
+                    required
+                >
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    required
+                >
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Mật khẩu"
+                    required
+                >
+
+                <button type="submit">
+                    Đăng Ký
+                </button>
+
+            </form>
+
+            <div class="auth-footer">
+
+                Đã có tài khoản?
+                
+                <a href="/login">
+                    Đăng nhập
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

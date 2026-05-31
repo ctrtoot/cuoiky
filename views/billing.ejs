@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Hóa Đơn</title>
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
+</head>
+
+<body>
+
+<%- include("partials/sidebar") %>
+
+<div class="main">
+
+    <div class="top-bar">
+
+        <h1>Hóa Đơn</h1>
+
+        <button
+            class="add-btn"
+            onclick="toggleModal()"
+        >
+
+            <i class="fa-solid fa-plus"></i>
+
+            Tạo Hóa Đơn
+
+        </button>
+
+    </div>
+
+    <!-- STATS -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <p>Tổng Doanh Thu</p>
+
+                <i class="fa-solid fa-dollar-sign"></i>
+
+            </div>
+
+            <h2>
+
+                <%= totalRevenue.toLocaleString() %>
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <p>Đã Thanh Toán</p>
+
+                <i class="fa-regular fa-circle-check"></i>
+
+            </div>
+
+            <h2>
+
+                <%= paidRevenue.toLocaleString() %>
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <p>Chưa Thanh Toán</p>
+
+                <i class="fa-regular fa-clock"></i>
+
+            </div>
+
+            <h2>
+
+                <%= unpaidRevenue.toLocaleString() %>
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <p>Quá Hạn</p>
+
+                <i class="fa-regular fa-circle-xmark"></i>
+
+            </div>
+
+            <h2 class="danger-text">
+
+                <%= overdueRevenue.toLocaleString() %>
+
+            </h2>
+
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="table-box">
+
+        <h2 class="table-title">
+
+            Danh Sách Hóa Đơn
+
+        </h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Căn Hộ</th>
+
+                    <th>Tháng</th>
+
+                    <th>Điện</th>
+
+                    <th>Nước</th>
+
+                    <th>Phí DV</th>
+
+                    <th>Tổng</th>
+
+                    <th>Trạng Thái</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <% bills.forEach(bill=>{ %>
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+
+                            <%= bill.apartmentCode %>
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        <%= bill.month %>
+
+                    </td>
+
+                    <td>
+
+                        <%= bill.electricity.toLocaleString() %> VNĐ
+
+                    </td>
+
+                    <td>
+
+                        <%= bill.water.toLocaleString() %> VNĐ
+
+                    </td>
+
+                    <td>
+
+                        <%= bill.serviceFee.toLocaleString() %> VNĐ
+
+                    </td>
+
+                    <td>
+
+                        <strong>
+
+                            <%= bill.total.toLocaleString() %> VNĐ
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        <% if(bill.status === "paid"){ %>
+
+                            <span class="bill-status paid">
+
+                                Đã Thanh Toán
+
+                            </span>
+
+                        <% } %>
+
+                        <% if(bill.status === "unpaid"){ %>
+
+                            <span class="bill-status unpaid">
+
+                                Chưa Thanh Toán
+
+                            </span>
+
+                        <% } %>
+
+                        <% if(bill.status === "overdue"){ %>
+
+                            <span class="bill-status overdue">
+
+                                Quá Hạn
+
+                            </span>
+
+                        <% } %>
+
+                    </td>
+
+                    <td>
+
+                        <% if(bill.status !== "paid"){ %>
+
+                            <form 
+                                action="/billing/status/<%= bill._id %>" 
+                                method="POST"
+                            >
+
+                                <input
+                                    type="hidden"
+                                    name="status"
+                                    value="paid"
+                                >
+
+                                <button class="pay-btn">
+
+                                    Mark Paid
+
+                                </button>
+
+                            </form>
+
+                        <% } %>
+
+                    </td>
+
+                </tr>
+
+                <% }) %>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>Tạo Hóa Đơn</h2>
+
+            <button onclick="toggleModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+        <form
+            action="/bills/add"
+            method="POST"
+            class="modal-form"
+        >
+
+            <select
+                name="apartmentCode"
+                required
+            >
+
+                <option value="">
+                    Chọn căn hộ
+                </option>
+
+                <% apartments.forEach(apartment=>{ %>
+
+                <option value="<%= apartment.code %>">
+
+                    <%= apartment.code %>
+
+                </option>
+
+                <% }) %>
+
+            </select>
+
+            <input
+                name="month"
+                placeholder="2026-05"
+                required
+            >
+
+            <input
+                name="electricity"
+                placeholder="Tiền điện"
+                required
+            >
+
+            <input
+                name="water"
+                placeholder="Tiền nước"
+                required
+            >
+
+            <input
+                name="serviceFee"
+                placeholder="Phí dịch vụ"
+                required
+            >
+
+            <select name="status">
+
+                <option value="paid">
+
+                    Đã Thanh Toán
+
+                </option>
+
+                <option value="unpaid">
+
+                    Chưa Thanh Toán
+
+                </option>
+
+                <option value="overdue">
+
+                    Quá Hạn
+
+                </option>
+
+            </select>
+
+            <button>
+
+                Lưu Hóa Đơn
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+function toggleModal(){
+
+    document
+    .getElementById("modal")
+    .classList
+    .toggle("show");
+
+}
+
+</script>
+
+</body>
+</html>

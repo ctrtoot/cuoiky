@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>My Expenses</title>
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
+</head>
+
+<body>
+
+<%- include("residentSidebar") %>
+
+<div class="main">
+
+    <div class="top-bar">
+
+        <h1>
+
+            My Expenses
+
+        </h1>
+
+    </div>
+
+    <!-- STATS -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <p>Total Outstanding</p>
+
+            </div>
+
+            <h2 class="danger-text">
+
+                <%= outstanding.toLocaleString() %>
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <p>Paid This Year</p>
+
+            </div>
+
+            <h2>
+
+                <%= paid.toLocaleString() %>
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <p>Total Bills</p>
+
+            </div>
+
+            <h2>
+
+                <%= bills.length %>
+
+            </h2>
+
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="table-box">
+
+        <h2 class="table-title">
+
+            Payment History
+
+        </h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Month</th>
+
+                    <th>Apartment</th>
+
+                    <th>Electricity</th>
+
+                    <th>Water</th>
+
+                    <th>Service</th>
+
+                    <th>Total</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <% bills.forEach(bill=>{ %>
+
+                <tr>
+
+                    <td>
+
+                        <%= bill.month %>
+
+                    </td>
+
+                    <td>
+
+                        <%= bill.apartmentCode %>
+
+                    </td>
+
+                    <td>
+
+                        <%= bill.electricity.toLocaleString() %>
+
+                    </td>
+
+                    <td>
+
+                        <%= bill.water.toLocaleString() %>
+
+                    </td>
+
+                    <td>
+
+                        <%= bill.serviceFee.toLocaleString() %>
+
+                    </td>
+
+                    <td>
+
+                        <strong>
+
+                            <%= bill.total.toLocaleString() %>
+
+                        </strong>
+
+                    </td>
+
+                    <td>
+
+                        <span class="bill-status <%= bill.status %>">
+
+                            <%= bill.status %>
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
+                <% }) %>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

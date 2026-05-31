@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Căn Hộ</title>
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
+</head>
+
+<body>
+
+<%- include("partials/sidebar") %>
+
+<div class="main">
+
+    <div class="top-bar">
+
+        <h1>Căn Hộ</h1>
+
+        <button
+        class="add-btn"
+        onclick="document.getElementById('popup').classList.add('show')"
+        >
+
+            <i class="fa-solid fa-plus"></i>
+
+            Thêm Căn Hộ
+
+        </button>
+
+    </div>
+
+    <!-- THỐNG KÊ -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <h3>Tổng Căn</h3>
+
+            <h2>
+
+                <%= apartments.length %>
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>Đã Có Người</h3>
+
+            <h2>
+
+                <%= apartments.filter(a => a.status === "occupied").length %>
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>Còn Trống</h3>
+
+            <h2>
+
+                <%= apartments.filter(a => a.status === "available").length %>
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3>Bảo Trì</h3>
+
+            <h2>
+
+                <%= apartments.filter(a => a.status === "maintenance").length %>
+
+            </h2>
+
+        </div>
+
+    </div>
+
+    <!-- DANH SÁCH CĂN HỘ -->
+
+    <div class="apartment-grid">
+
+        <% apartments.forEach(apartment => { %>
+
+        <div class="apartment-card">
+
+            <div class="card-actions">
+
+                <a
+                href="/apartments/edit/<%= apartment._id %>"
+                class="edit-btn"
+                >
+                    Sửa
+                </a>
+
+                <a
+                href="/apartments/delete/<%= apartment._id %>"
+                class="delete-btn-card"
+                >
+                    Xóa
+                </a>
+
+            </div>
+
+            <div class="apartment-card-top">
+
+                <h2>
+
+                    Căn <%= apartment.code %>
+
+                </h2>
+
+                <% if(apartment.status === "occupied"){ %>
+
+                    <span class="badge occupied">Đã Có Người</span>
+
+                <% } %>
+
+                <% if(apartment.status === "available"){ %>
+
+                    <span class="badge available">
+
+                        Còn Trống
+
+                    </span>
+
+                <% } %>
+
+                <% if(apartment.status === "maintenance"){ %>
+
+                    <span class="badge maintenance">
+
+                        Bảo Trì
+
+                    </span>
+
+                <% } %>
+
+            </div>
+
+            <p class="apartment-info">
+
+                Tòa <%= apartment.building %> •
+                Tầng <%= apartment.floor %>
+
+            </p>
+
+            <div class="apartment-details">
+
+                <div class="detail-item">
+
+                    <span>Diện Tích</span>
+
+                    <strong>
+
+                        <%= apartment.area %> m²
+
+                    </strong>
+
+                </div>
+
+                <div class="detail-item">
+
+                    <span>Phòng Ngủ</span>
+
+                    <strong>
+
+                        <%= apartment.bedrooms %>
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <% }) %>
+
+    </div>
+
+</div>
+
+<!-- POPUP -->
+
+<div
+class="modal"
+id="popup"
+>
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>Thêm Căn Hộ</h2>
+
+            <button
+            onclick="document.getElementById('popup').classList.remove('show')"
+            >
+
+                ×
+
+            </button>
+
+        </div>
+
+        <form
+        action="/apartments/add"
+        method="POST"
+        class="modal-form"
+        >
+
+            <input
+            type="text"
+            name="code"
+            placeholder="Mã căn hộ"
+            required
+            >
+
+            <input
+            type="text"
+            name="building"
+            placeholder="Tòa"
+            required
+            >
+
+            <input
+            type="number"
+            name="floor"
+            placeholder="Tầng"
+            required
+            >
+
+            <input
+            type="number"
+            name="area"
+            placeholder="Diện tích"
+            required
+            >
+
+            <input
+            type="number"
+            name="bedrooms"
+            placeholder="Phòng ngủ"
+            required
+            >
+
+            <select name="status">
+
+                <option value="available">
+
+                    Còn Trống
+
+                </option>
+
+                <option value="occupied">
+
+                    Đã Có Người
+
+                </option>
+
+                <option value="maintenance">
+
+                    Bảo Trì
+
+                </option>
+
+            </select>
+
+            <button type="submit">
+
+                Thêm Căn Hộ
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+<div class="sidebar">
+
+    <div class="sidebar-top">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-building"></i>
+
+            <span>AptManager</span>
+
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a
+                href="/resident/dashboard"
+                class="<%= page === 'dashboard' ? 'active' : '' %>"
+            >
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>Trang Chủ</span>
+
+            </a>
+
+            <a
+                href="/resident/notifications"
+                class="<%= page === 'notifications' ? 'active' : '' %>"
+            >
+
+                <i class="fa-regular fa-bell"></i>
+
+                <span>Thông Báo</span>
+
+            </a>
+
+            <a
+                href="/resident/bills"
+                class="<%= page === 'bills' ? 'active' : '' %>"
+            >
+
+                <i class="fa-solid fa-dollar-sign"></i>
+
+                <span>Chi Phí</span>
+
+            </a>
+
+            <a
+                href="/resident/maintenance"
+                class="<%= page === 'maintenance' ? 'active' : '' %>"
+            >
+
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+
+                <span>Bảo Trì</span>
+
+            </a>
+
+            <a
+                href="/resident/profile"
+                class="<%= page === 'profile' ? 'active' : '' %>"
+            >
+
+                <i class="fa-regular fa-user"></i>
+
+                <span>Hồ Sơ</span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="sidebar-bottom">
+
+       <a href="/resident/profile"
+class="user-box-link">
+
+<div class="user-box">
+
+            <div class="user-avatar">
+
+                <%= user.fullName.charAt(0) %>
+
+            </div>
+
+            <div class="user-info">
+
+                <h4>
+
+                    <%= user.fullName %>
+
+                </h4>
+
+                <p>
+
+                    Resident
+
+                </p>
+
+            </div>
+
+        </div>
+</div>
+
+</a>
+        <a href="/logout" class="logout-btn">
+
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+            <span>Đăng Xuất</span>
+
+        </a>
+
+    </div>
+
+</div>

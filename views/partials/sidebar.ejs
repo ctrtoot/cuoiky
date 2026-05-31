@@ -1,0 +1,100 @@
+<div class="sidebar">
+
+    <div class="sidebar-top">
+
+        <div class="logo">
+            <i class="fa-solid fa-building"></i>
+            <span>AptManager</span>
+        </div>
+
+        <div class="sidebar-menu">
+
+            <a href="/" class="<%= page === 'dashboard' ? 'active' : '' %>">
+                <i class="fa-solid fa-table-columns"></i>
+                <span>Tổng quan</span>
+            </a>
+
+            <a href="/residents" class="<%= page === 'residents' ? 'active' : '' %>">
+                <i class="fa-solid fa-users"></i>
+                <span>Cư dân</span>
+            </a>
+
+            <a href="/apartments" class="<%= page === 'apartments' ? 'active' : '' %>">
+                <i class="fa-solid fa-building"></i>
+                <span>Căn hộ</span>
+            </a>
+
+            <a href="/billing" class="<%= page === 'billing' ? 'active' : '' %>">
+                <i class="fa-solid fa-credit-card"></i>
+                <span>Hóa đơn</span>
+            </a>
+
+            <a href="/notifications" class="<%= page === 'notifications' ? 'active' : '' %>">
+                <i class="fa-regular fa-bell"></i>
+                <span>Thông báo</span>
+            </a>
+
+            <a href="/maintenance" class="<%= page === 'maintenance' ? 'active' : '' %>">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+                <span>Bảo trì</span>
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="sidebar-bottom">
+
+        <a href="/account" class="user-box-link">
+
+            <div class="user-box">
+
+                <div class="user-avatar">
+
+                    <% if(user && user.fullName){ %>
+
+                        <%= user.fullName.charAt(0).toUpperCase() %>
+
+                    <% }else{ %>
+
+                        A
+
+                    <% } %>
+
+                </div>
+
+                <div class="user-info">
+
+                    <h4>
+
+                        <%= user && user.fullName
+                        ? user.fullName
+                        : "Admin User" %>
+
+                    </h4>
+
+                    <p>
+
+                        <%= user && user.role
+                        ? user.role
+                        : "Admin" %>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </a>
+
+        <a href="/logout" class="logout-btn">
+
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+            <span>Đăng xuất</span>
+
+        </a>
+
+    </div>
+
+</div>

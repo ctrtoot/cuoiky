@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Notifications</title>
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
+</head>
+
+<body>
+
+<%- include("residentSidebar") %>
+
+<div class="main">
+
+    <div class="top-bar">
+
+        <h1>
+
+            Notifications
+
+        </h1>
+
+    </div>
+
+    <div class="notifications-list">
+
+        <% notifications.forEach(item=>{ %>
+
+        <div class="notification-card">
+
+            <div class="notification-left">
+
+                <div class="notification-icon">
+
+                    <% if(item.type === "warning"){ %>
+
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+
+                    <% } %>
+
+                    <% if(item.type === "info"){ %>
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                    <% } %>
+
+                    <% if(item.type === "urgent"){ %>
+
+                        <i class="fa-solid fa-bell"></i>
+
+                    <% } %>
+
+                    <% if(item.type === "announcement"){ %>
+
+                        <i class="fa-solid fa-bullhorn"></i>
+
+                    <% } %>
+
+                </div>
+
+                <div>
+
+                    <div class="notification-title">
+
+                        <%= item.title %>
+
+                    </div>
+
+                    <div class="notification-message">
+
+                        <%= item.message %>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="notification-right">
+
+                <span class="notify-badge <%= item.type %>">
+
+                    <%= item.type %>
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <% }) %>
+
+    </div>
+
+</div>
+
+</body>
+</html>

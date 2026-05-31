@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Quản Lý Bảo Trì</title>
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
+</head>
+
+<body>
+
+<%- include("partials/sidebar") %>
+
+<div class="main">
+
+<div class="top-bar">
+
+<h1>Quản Lý Bảo Trì</h1>
+
+</div>
+
+<!-- STATS -->
+
+<div class="stats-grid">
+
+<div class="stat-card">
+
+<div class="stat-top">
+
+<h3>Tổng Yêu Cầu</h3>
+
+<i class="fa-solid fa-screwdriver-wrench"></i>
+
+</div>
+
+<h2>
+
+<%= requests.length %>
+
+</h2>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-top">
+
+<h3>Pending</h3>
+
+<i class="fa-solid fa-clock"></i>
+
+</div>
+
+<h2>
+
+<%= requests.filter(r=>r.status==="Pending").length %>
+
+</h2>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-top">
+
+<h3>In Progress</h3>
+
+<i class="fa-solid fa-spinner"></i>
+
+</div>
+
+<h2>
+
+<%= requests.filter(r=>r.status==="In Progress").length %>
+
+</h2>
+
+</div>
+
+<div class="stat-card">
+
+<div class="stat-top">
+
+<h3>Completed</h3>
+
+<i class="fa-solid fa-circle-check"></i>
+
+</div>
+
+<h2>
+
+<%= requests.filter(r=>r.status==="Completed").length %>
+
+</h2>
+
+</div>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Tiêu Đề</th>
+
+<th>Danh Mục</th>
+
+<th>Mức Độ</th>
+
+<th>Vị Trí</th>
+
+<th>Cư Dân</th>
+
+<th>Ngày</th>
+
+<th>Trạng Thái</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<% requests.forEach(item=>{ %>
+
+<tr>
+
+<td>
+
+<strong>
+
+<%= item.title %>
+
+</strong>
+
+</td>
+
+<td>
+
+<%= item.category %>
+
+</td>
+
+<td>
+
+<% if(item.priority==="High"){ %>
+
+<span class="badge danger">
+
+High
+
+</span>
+
+<% } %>
+
+<% if(item.priority==="Medium"){ %>
+
+<span class="badge warning">
+
+Medium
+
+</span>
+
+<% } %>
+
+<% if(item.priority==="Low"){ %>
+
+<span class="badge info">
+
+Low
+
+</span>
+
+<% } %>
+
+</td>
+
+<td>
+
+<%= item.location %>
+
+</td>
+
+<td>
+
+<%= item.resident %>
+
+</td>
+
+<td>
+
+<%= new Date(item.createdAt)
+.toLocaleDateString("vi-VN") %>
+
+</td>
+
+<td>
+
+<form
+action="/maintenance/status/<%= item._id %>"
+method="POST"
+>
+
+<select
+name="status"
+class="status-select"
+onchange="this.form.submit()"
+>
+
+<option
+value="Pending"
+<%= item.status==="Pending"
+? "selected"
+: "" %>
+>
+Pending
+</option>
+
+<option
+value="In Progress"
+<%= item.status==="In Progress"
+? "selected"
+: "" %>
+>
+In Progress
+</option>
+
+<option
+value="Completed"
+<%= item.status==="Completed"
+? "selected"
+: "" %>
+>
+Completed
+</option>
+
+</select>
+
+</form>
+
+</td>
+
+</tr>
+
+<% }) %>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

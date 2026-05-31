@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Resident Dashboard</title>
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
+</head>
+
+<body>
+
+<%- include("residentSidebar") %>
+
+<div class="main">
+
+    <div class="welcome-box">
+
+        <h1>
+
+            Welcome,
+            <%= resident.fullName %>
+
+        </h1>
+
+        <p>
+
+            Here's an overview of your apartment.
+
+        </p>
+
+    </div>
+
+    <!-- STATS -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <p>Apartment</p>
+
+                <i class="fa-regular fa-building"></i>
+
+            </div>
+
+            <h2>
+
+                <%= resident.apartment %>
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <p>Outstanding Fees</p>
+
+                <i class="fa-solid fa-dollar-sign"></i>
+
+            </div>
+
+            <h2 class="danger-text">
+
+                <%= outstanding.toLocaleString() %>
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <p>New Notifications</p>
+
+                <i class="fa-regular fa-bell"></i>
+
+            </div>
+
+            <h2>
+
+                <%= notifications.length %>
+
+            </h2>
+
+        </div>
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <p>Open Maintenance</p>
+
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+
+            </div>
+
+            <h2>
+
+                <%= maintenance.length %>
+
+            </h2>
+
+        </div>
+
+    </div>
+
+ <!-- CONTENT -->
+
+<div class="dashboard-grid">
+
+    <!-- RECENT BILLS -->
+
+    <div class="dashboard-card">
+
+        <h2>
+
+            Recent Bills
+
+        </h2>
+
+        <% if(bills.length > 0){ %>
+
+            <% bills.slice(0,5).forEach(bill=>{ %>
+
+            <div class="bill-item">
+
+                <div class="bill-left">
+
+                    <h3>
+
+                        <%= bill.month %>
+
+                    </h3>
+
+                    <p>
+
+                        Căn hộ:
+                        <%= bill.apartment %>
+
+                    </p>
+
+                </div>
+
+                <div class="bill-right">
+
+                    <span class="bill-price">
+
+                        <%= bill.total.toLocaleString() %>đ
+
+                    </span>
+
+                    <span class="bill-status <%= bill.status %>">
+
+                        <%= bill.status %>
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <% }) %>
+
+        <% }else{ %>
+
+            <p class="empty-text">
+
+                Chưa có hóa đơn nào
+
+            </p>
+
+        <% } %>
+
+    </div>
+
+    <!-- ANNOUNCEMENTS -->
+
+    <div class="dashboard-card">
+
+        <h2>
+
+            Latest Announcements
+
+        </h2>
+
+        <% if(notifications.length > 0){ %>
+
+            <% notifications.forEach(item=>{ %>
+
+            <div class="announcement-item">
+
+                <h3>
+
+                    <%= item.title %>
+
+                </h3>
+
+                <p>
+
+                    <%= item.message %>
+
+                </p>
+
+            </div>
+
+            <% }) %>
+
+        <% }else{ %>
+
+            <p class="empty-text">
+
+                Chưa có thông báo
+
+            </p>
+
+        <% } %>
+
+    </div>
+
+</div>
+
+</body>
+</html>

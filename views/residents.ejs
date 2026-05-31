@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Quản Lý Cư Dân</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+</head>
+
+<body>
+
+<%- include("partials/sidebar") %>
+
+<div class="main">
+
+    <!-- TOP -->
+
+    <div class="top-bar">
+
+        <h1>
+
+            Cư Dân
+
+        </h1>
+
+        <button
+            class="add-btn"
+            onclick="toggleModal()"
+        >
+
+            <i class="fa-solid fa-plus"></i>
+
+            Thêm Cư Dân
+
+        </button>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="table-box">
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Tìm kiếm cư dân..."
+                onkeyup="searchResident()"
+            >
+
+        </div>
+
+        <!-- TABLE -->
+
+        <table id="residentTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>Họ Tên</th>
+
+                    <th>Email</th>
+
+                    <th>Số Điện Thoại</th>
+
+                    <th>Căn Hộ</th>
+
+                    <th>Quyền Sở Hữu</th>
+
+                    <th>Vai Trò</th>
+
+                    <th>Thao Tác</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <% residents.forEach(resident=>{ %>
+
+                <tr>
+
+                    <!-- NAME -->
+
+                    <td>
+
+                        <div class="resident-info">
+
+                            <div>
+
+                                <strong>
+
+                                    <%= resident.fullName %>
+
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <!-- EMAIL -->
+
+                    <td>
+
+                        <%= resident.email %>
+
+                    </td>
+
+                    <!-- PHONE -->
+
+                    <td>
+
+                        <%= resident.phone || "Chưa cập nhật" %>
+
+                    </td>
+
+                    <!-- APARTMENT -->
+
+                    <td>
+
+                        <% if(resident.apartment){ %>
+
+                            <span class="apartment-badge">
+
+                                <%= resident.apartment %>
+
+                            </span>
+
+                        <% } else { %>
+
+                            <span class="empty-badge">
+
+                                Chưa gán
+
+                            </span>
+
+                        <% } %>
+
+                    </td>
+
+                    <!-- OWNERSHIP -->
+
+                    <td>
+
+                        <span class="badge resident">
+
+                            <%= resident.ownership || "resident" %>
+
+                        </span>
+
+                    </td>
+
+                    <!-- ROLE -->
+
+                    <td>
+
+                        <span class="badge admin">
+
+                            resident
+
+                        </span>
+
+                    </td>
+
+                    <!-- ACTION -->
+
+                    <td>
+
+                        <div class="action-buttons">
+
+                            <!-- EDIT -->
+
+                            <button
+                                class="edit-btn"
+
+                                data-id="<%= resident._id %>"
+
+                                data-fullname="<%= resident.fullName %>"
+
+                                data-phone="<%= resident.phone || '' %>"
+
+                                data-email="<%= resident.email %>"
+
+                                data-apartment="<%= resident.apartment || '' %>"
+
+                                data-ownership="<%= resident.ownership || 'resident' %>"
+
+                                onclick="openEditModal(this)"
+                            >
+
+                                <i class="fa-solid fa-pen"></i>
+
+                            </button>
+
+                            <!-- DELETE -->
+
+                            <a
+                                href="/residents/delete/<%= resident._id %>"
+                                class="delete-btn"
+                            >
+
+                                <i class="fa-regular fa-trash-can"></i>
+
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                <% }) %>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- ADD MODAL -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>
+
+                Thêm Cư Dân
+
+            </h2>
+
+            <button onclick="toggleModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+        <form
+            action="/residents/add"
+            method="POST"
+            class="modal-form"
+        >
+
+            <input
+                name="fullName"
+                placeholder="Họ tên"
+                required
+            >
+
+            <input
+                name="phone"
+                placeholder="Số điện thoại"
+            >
+
+            <input
+                name="email"
+                placeholder="Email"
+                required
+            >
+
+            <select name="apartment">
+
+                <option value="">
+
+                    Chọn căn hộ
+
+                </option>
+
+                <% apartments.forEach(apartment=>{ %>
+
+                <option value="<%= apartment.code %>">
+
+                    <%= apartment.code %>
+
+                </option>
+
+                <% }) %>
+
+            </select>
+
+            <select name="ownership">
+
+                <option value="resident">
+
+                    Cư dân
+
+                </option>
+
+                <option value="owner">
+
+                    Chủ hộ
+
+                </option>
+
+                <option value="tenant">
+
+                    Người thuê
+
+                </option>
+
+            </select>
+
+            <button type="submit">
+
+                Thêm Cư Dân
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- EDIT MODAL -->
+
+<div class="modal" id="editModal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>
+
+                Chỉnh Sửa Cư Dân
+
+            </h2>
+
+            <button onclick="toggleEditModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+        <form
+            id="editForm"
+            method="POST"
+            class="modal-form"
+        >
+
+            <input
+                type="text"
+                name="fullName"
+                id="editFullName"
+                required
+            >
+
+            <input
+                type="text"
+                name="phone"
+                id="editPhone"
+            >
+
+            <input
+                type="email"
+                name="email"
+                id="editEmail"
+                required
+            >
+
+            <select
+                name="apartment"
+                id="editApartment"
+            >
+
+                <option value="">
+
+                    Chọn căn hộ
+
+                </option>
+
+                <% apartments.forEach(apartment=>{ %>
+
+                <option value="<%= apartment.code %>">
+
+                    <%= apartment.code %>
+
+                </option>
+
+                <% }) %>
+
+            </select>
+
+            <select
+                name="ownership"
+                id="editOwnership"
+            >
+
+                <option value="resident">
+
+                    Cư dân
+
+                </option>
+
+                <option value="owner">
+
+                    Chủ hộ
+
+                </option>
+
+                <option value="tenant">
+
+                    Người thuê
+
+                </option>
+
+            </select>
+
+            <button type="submit">
+
+                Lưu Thay Đổi
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+function toggleModal(){
+
+    document
+    .getElementById("modal")
+    .classList
+    .toggle("show");
+
+}
+
+function toggleEditModal(){
+
+    document
+    .getElementById("editModal")
+    .classList
+    .toggle("show");
+
+}
+
+function openEditModal(button){
+
+    document
+    .getElementById("editForm")
+    .action =
+    `/residents/edit/${button.dataset.id}`;
+
+    document
+    .getElementById("editFullName")
+    .value =
+    button.dataset.fullname;
+
+    document
+    .getElementById("editPhone")
+    .value =
+    button.dataset.phone;
+
+    document
+    .getElementById("editEmail")
+    .value =
+    button.dataset.email;
+
+    document
+    .getElementById("editApartment")
+    .value =
+    button.dataset.apartment;
+
+    document
+    .getElementById("editOwnership")
+    .value =
+    button.dataset.ownership;
+
+    toggleEditModal();
+
+}
+
+/* SEARCH */
+
+function searchResident(){
+
+    let input =
+    document
+    .getElementById("searchInput")
+    .value
+    .toLowerCase();
+
+    let rows =
+    document
+    .querySelectorAll(
+        "#residentTable tbody tr"
+    );
+
+    rows.forEach(row=>{
+
+        let text =
+        row.innerText.toLowerCase();
+
+        row.style.display =
+        text.includes(input)
+        ? ""
+        : "none";
+
+    });
+
+}
+
+</script>
+
+</body>
+
+</html>

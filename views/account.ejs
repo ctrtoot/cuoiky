@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<title>Tài khoản</title>
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+```
+
+</head>
+
+<body>
+
+<div class="layout">
+
+```
+<%- include("partials/sidebar") %>
+
+<main class="main-content">
+
+    <div class="account-container">
+
+        <div class="account-header-title">
+
+            <h1>Tài khoản</h1>
+
+            <p>Quản lý thông tin cá nhân và bảo mật</p>
+
+        </div>
+
+        <!-- PROFILE -->
+
+        <div class="account-card">
+
+            <div class="profile-top">
+
+                <div class="profile-avatar">
+
+                    <div class="avatar-circle">
+
+                        <%= user.fullName.charAt(0).toUpperCase() %>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="avatar-upload">
+
+                        <i class="fa-solid fa-camera"></i>
+
+                    </button>
+
+                </div>
+
+                <div class="profile-info">
+
+                    <h2><%= user.fullName %></h2>
+
+                    <p><%= user.email %></p>
+
+                    <span class="role-badge">
+
+                        <%= user.role === "admin"
+                        ? "Quản trị viên"
+                        : "Cư dân" %>
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <form
+                action="/account/update"
+                method="POST"
+                class="account-form">
+
+                <div class="form-group">
+
+                    <label>Họ và tên</label>
+
+                    <input
+                        type="text"
+                        name="fullName"
+                        value="<%= user.fullName %>"
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Số điện thoại</label>
+
+                    <input
+                        type="text"
+                        name="phone"
+                        value="<%= user.phone || '' %>"
+                    >
+
+                </div>
+
+                <div class="form-group full-width">
+
+                    <label>Email</label>
+
+                    <input
+                        type="email"
+                        value="<%= user.email %>"
+                        readonly
+                    >
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn-primary">
+
+                    Chỉnh sửa thông tin
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- PASSWORD -->
+
+        <div class="account-card">
+
+            <h2>
+
+                <i class="fa-solid fa-lock"></i>
+
+                Đổi mật khẩu
+
+            </h2>
+
+            <form
+                action="/account/password"
+                method="POST"
+                class="password-form">
+
+                <input
+                    type="password"
+                    name="currentPassword"
+                    placeholder="Nhập mật khẩu hiện tại"
+                    required
+                >
+
+                <div class="password-row">
+
+                    <input
+                        type="password"
+                        name="newPassword"
+                        placeholder="Mật khẩu mới"
+                        required
+                    >
+
+                    <input
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="Xác nhận mật khẩu mới"
+                        required
+                    >
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn-primary">
+
+                    Đổi mật khẩu
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- USER TABLE -->
+
+        <% if(user.role === "admin"){ %>
+
+        <div class="account-card">
+
+            <h2>
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                Quản lý tài khoản người dùng
+
+            </h2>
+
+            <table class="user-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Người dùng</th>
+
+                        <th>Email</th>
+
+                        <th>Vai trò</th>
+
+                        <th>Thao tác</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <% users.forEach(item=>{ %>
+
+                    <tr>
+
+                        <td>
+
+                            <%= item.fullName %>
+
+                        </td>
+
+                        <td>
+
+                            <%= item.email %>
+
+                        </td>
+
+                        <td>
+
+                            <span class="table-role">
+
+                                <%= item.role %>
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <% if(item._id.toString() !== user._id.toString()){ %>
+
+                            <a
+                               href="/account/delete/<%= item._id %>"
+                               class="delete-btn"
+                               onclick="return confirm('Xóa tài khoản này?')">
+
+                                <i class="fa-solid fa-trash"></i>
+
+                            </a>
+
+                            <% } %>
+
+                        </td>
+
+                    </tr>
+
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <% } %>
+
+    </div>
+
+</main>
+```
+
+</div>
+
+</body>
+
+</html>

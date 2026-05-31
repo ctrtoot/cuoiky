@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Bảo trì</title>
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
+</head>
+
+<body>
+
+<%- include("residentSidebar") %>
+
+<div class="main">
+
+    <div class="top-bar">
+
+        <h1>
+
+            Bảo Trì
+
+        </h1>
+
+        <button
+            class="add-btn"
+            onclick="toggleModal()"
+        >
+
+            <i class="fa-solid fa-plus"></i>
+
+            Gửi Yêu Cầu
+
+        </button>
+
+    </div>
+
+    <div class="maintenance-grid">
+
+        <% requests.forEach(item=>{ %>
+
+        <div class="maintenance-card">
+
+            <div class="maintenance-header">
+
+                <h2>
+
+                    <%= item.title %>
+
+                </h2>
+
+                <span class="bill-status <%= item.status %>">
+
+                    <%= item.status %>
+
+                </span>
+
+            </div>
+
+            <p class="maintenance-category">
+
+                <%= item.category %>
+
+            </p>
+
+            <p class="maintenance-description">
+
+                <%= item.description %>
+
+            </p>
+
+            <div class="maintenance-footer">
+
+                <span class="priority <%= item.priority %>">
+
+                    <%= item.priority %>
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <% }) %>
+
+    </div>
+
+</div>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>
+
+                Gửi Yêu Cầu Bảo Trì
+
+            </h2>
+
+            <button onclick="toggleModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+        <form
+            action="/resident/maintenance/add"
+            method="POST"
+            class="modal-form"
+        >
+
+            <input
+                name="title"
+                placeholder="Tiêu đề"
+                required
+                oninvalid="this.setCustomValidity('Vui lòng nhập tiêu đề')"
+                oninput="this.setCustomValidity('')"
+            >
+
+            <select
+                name="category"
+                required
+                oninvalid="this.setCustomValidity('Vui lòng chọn danh mục')"
+                oninput="this.setCustomValidity('')"
+            >
+
+                <option value="">
+                    Chọn danh mục
+                </option>
+
+                <option value="Điện nước">
+                    Điện nước
+                </option>
+
+                <option value="Điện">
+                    Điện
+                </option>
+
+                <option value="Máy lạnh">
+                    Máy lạnh
+                </option>
+
+                <option value="Cơ sở hạ tầng">
+                    Cơ sở hạ tầng
+                </option>
+
+                <option value="Vệ sinh">
+                    Vệ sinh
+                </option>
+
+                <option value="Khác">
+                    Khác
+                </option>
+
+            </select>
+
+            <textarea
+                name="description"
+                placeholder="Mô tả chi tiết"
+                required
+                oninvalid="this.setCustomValidity('Vui lòng nhập mô tả')"
+                oninput="this.setCustomValidity('')"
+            ></textarea>
+
+            <select name="priority">
+
+                <option value="high">
+
+                    Cao
+
+                </option>
+
+                <option value="medium">
+
+                    Trung Bình
+
+                </option>
+
+                <option value="low">
+
+                    Thấp
+
+                </option>
+
+            </select>
+
+            <button type="submit">
+
+                Gửi Yêu Cầu
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+function toggleModal(){
+
+    document
+    .getElementById("modal")
+    .classList
+    .toggle("show");
+
+}
+
+</script>
+
+</body>
+</html>

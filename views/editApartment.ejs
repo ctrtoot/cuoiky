@@ -1,0 +1,110 @@
+```ejs
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Sửa Căn Hộ</title>
+
+<link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+<%- include("partials/sidebar") %>
+
+<div class="main">
+
+<h1 class="dashboard-title">
+
+Sửa Căn Hộ
+
+</h1>
+
+<div class="dashboard-card">
+
+<form
+action="/apartments/edit/<%= apartment._id %>"
+method="POST"
+class="modal-form"
+>
+
+<input
+name="code"
+value="<%= apartment.code %>"
+placeholder="Mã căn hộ"
+required
+>
+
+<input
+name="building"
+value="<%= apartment.building %>"
+placeholder="Tòa"
+required
+>
+
+<input
+name="floor"
+value="<%= apartment.floor %>"
+placeholder="Tầng"
+required
+>
+
+<input
+name="area"
+value="<%= apartment.area %>"
+placeholder="Diện tích"
+required
+>
+
+<input
+name="bedrooms"
+value="<%= apartment.bedrooms %>"
+placeholder="Phòng ngủ"
+required
+>
+
+<select name="status">
+
+<option
+value="available"
+<%= apartment.status==="available"?"selected":"" %>
+>
+Còn Trống
+</option>
+
+<option
+value="occupied"
+<%= apartment.status==="occupied"?"selected":"" %>
+>
+Đã Có Người
+</option>
+
+<option
+value="maintenance"
+<%= apartment.status==="maintenance"?"selected":"" %>
+>
+Bảo Trì
+</option>
+
+</select>
+
+<button type="submit">
+
+Cập Nhật
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
+```

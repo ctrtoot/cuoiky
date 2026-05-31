@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Hồ sơ cá nhân</title>
+
+<link rel="stylesheet" href="/css/style.css">
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
+</head>
+
+<body>
+
+<%- include("residentSidebar") %>
+
+<div class="main">
+
+```
+<h1 class="page-title">
+
+    Hồ Sơ Cá Nhân
+
+</h1>
+
+<div class="resident-profile-wrapper">
+
+    <!-- PROFILE -->
+
+    <div class="profile-card">
+
+        <div class="profile-header">
+
+            <div class="avatar-section">
+
+                <img
+                src="<%= user.avatar || '/images/default-avatar.png' %>"
+                class="avatar-img">
+
+                <form
+                action="/resident/profile/avatar"
+                method="POST"
+                enctype="multipart/form-data">
+
+                    <input
+                    type="file"
+                    name="avatar"
+                    required>
+
+                    <button
+                    class="btn-primary">
+
+                        Đổi Avatar
+
+                    </button>
+
+                </form>
+
+            </div>
+
+            <div class="profile-info">
+
+                <h2>
+                    <%= resident.fullName %>
+                </h2>
+
+                <p>
+                    <%= resident.email %>
+                </p>
+
+                <span class="resident-badge">
+
+                    Cư dân
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- UPDATE INFO -->
+
+    <div class="profile-card">
+
+        <h2>
+
+            Chỉnh Sửa Thông Tin
+
+        </h2>
+
+        <form
+        action="/resident/profile/update"
+        method="POST"
+        class="profile-form">
+
+            <input
+            type="text"
+            name="fullName"
+            value="<%= resident.fullName %>"
+            placeholder="Họ tên">
+
+            <input
+            type="text"
+            name="phone"
+            value="<%= resident.phone || '' %>"
+            placeholder="Số điện thoại">
+
+            <button
+            class="btn-primary">
+
+                Cập Nhật
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- CHANGE PASSWORD -->
+
+    <div class="profile-card">
+
+        <h2>
+
+            Đổi Mật Khẩu
+
+        </h2>
+
+        <form
+        action="/resident/profile/password"
+        method="POST"
+        class="profile-form">
+
+            <input
+            type="password"
+            name="currentPassword"
+            placeholder="Mật khẩu hiện tại">
+
+            <input
+            type="password"
+            name="newPassword"
+            placeholder="Mật khẩu mới">
+
+            <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Xác nhận mật khẩu">
+
+            <button
+            class="btn-primary">
+
+                Đổi Mật Khẩu
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- APARTMENT -->
+
+    <div class="profile-card">
+
+        <h2>
+
+            Thông Tin Căn Hộ
+
+        </h2>
+
+        <div class="apartment-grid">
+
+            <div class="profile-field">
+
+                <label>Mã căn hộ</label>
+
+                <div class="profile-input">
+
+                    <%= apartment?.code || "N/A" %>
+
+                </div>
+
+            </div>
+
+            <div class="profile-field">
+
+                <label>Tòa</label>
+
+                <div class="profile-input">
+
+                    <%= apartment?.building || "N/A" %>
+
+                </div>
+
+            </div>
+
+            <div class="profile-field">
+
+                <label>Tầng</label>
+
+                <div class="profile-input">
+
+                    <%= apartment?.floor || "N/A" %>
+
+                </div>
+
+            </div>
+
+            <div class="profile-field">
+
+                <label>Phòng ngủ</label>
+
+                <div class="profile-input">
+
+                    <%= apartment?.bedrooms || "N/A" %>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+</body>
+</html>
