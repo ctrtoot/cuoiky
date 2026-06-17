@@ -4,7 +4,6 @@
 
 <head>
 
-```
 <meta charset="UTF-8">
 
 <title>Tài khoản</title>
@@ -13,18 +12,15 @@
 
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-```
 
 </head>
 
 <body>
 
-<div class="layout">
-
-```
+<div class="wrapper">
 <%- include("partials/sidebar") %>
 
-<main class="main-content">
+<main class="main">
 
     <div class="account-container">
 
@@ -42,41 +38,43 @@
 
             <div class="profile-top">
 
-                <div class="profile-avatar">
+    <div class="profile-avatar">
 
-                    <div class="avatar-circle">
+    <% if(user.avatar){ %>
 
-                        <%= user.fullName.charAt(0).toUpperCase() %>
+        <img
+        src="<%= user.avatar %>"
+        alt="Avatar">
 
-                    </div>
+    <% } else { %>
 
-                    <button
-                        type="button"
-                        class="avatar-upload">
+        <div class="avatar-circle">
 
-                        <i class="fa-solid fa-camera"></i>
+            <%= user.fullName.charAt(0).toUpperCase() %>
 
-                    </button>
+        </div>
 
-                </div>
+    <% } %>
 
-                <div class="profile-info">
+</div>
 
-                    <h2><%= user.fullName %></h2>
+    <div class="profile-info">
 
-                    <p><%= user.email %></p>
+        <h2><%= user.fullName %></h2>
 
-                    <span class="role-badge">
+        <p><%= user.email %></p>
 
-                        <%= user.role === "admin"
-                        ? "Quản trị viên"
-                        : "Cư dân" %>
+        <span class="role-badge">
 
-                    </span>
+            <%= user.role === "admin"
+            ? "Quản trị viên"
+            : "Cư dân" %>
 
-                </div>
+        </span>
 
-            </div>
+    </div>
+
+</div>
 
             <hr>
 
