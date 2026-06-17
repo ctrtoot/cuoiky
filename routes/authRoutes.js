@@ -84,23 +84,25 @@ router.post("/register", async(req,res)=>{
 
 /* LOGIN */
 
+/* LOGIN */
+
 router.post("/login", async(req,res)=>{
 
     try{
+
+        console.log("LOGIN EMAIL =", req.body.email);
 
         const user = await User.findOne({
             email:req.body.email
         });
 
+        console.log("FOUND USER =", user);
+
         if(!user){
-
             return res.send("Email không tồn tại");
-
         }
 
         let match = false;
-
-        /* PASSWORD ĐÃ HASH */
 
         if(user.password.startsWith("$2")){
 
@@ -109,16 +111,10 @@ router.post("/login", async(req,res)=>{
                 user.password
             );
 
-        }
-
-        /* PASSWORD THƯỜNG */
-
-        else{
+        } else {
 
             match =
             req.body.password === user.password;
-
-            /* TỰ HASH LẠI */
 
             if(match){
 
@@ -131,28 +127,18 @@ router.post("/login", async(req,res)=>{
                 user.password = newHash;
 
                 await user.save();
-
             }
-
         }
 
         if(!match){
-
             return res.send("Sai mật khẩu");
-
         }
 
         req.session.user = user;
 
-        /* ADMIN */
-
         if(user.role === "admin"){
-
             return res.redirect("/");
-
         }
-
-        /* RESIDENT */
 
         return res.redirect(
             "/resident/dashboard"
@@ -161,7 +147,6 @@ router.post("/login", async(req,res)=>{
     }catch(err){
 
         console.log(err);
-
         res.send("Lỗi đăng nhập");
 
     }
