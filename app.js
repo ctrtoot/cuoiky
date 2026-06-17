@@ -28,6 +28,10 @@ mongoose.connect(process.env.MONGO_URI)
 .then(() => {
 
     console.log("MongoDB Connected");
+    console.log(
+        "DB NAME =",
+        mongoose.connection.name
+    );
 
 })
 .catch((err) => {
@@ -35,7 +39,6 @@ mongoose.connect(process.env.MONGO_URI)
     console.log(err);
 
 });
-
 /* =========================
    VIEW ENGINE
 ========================= */
