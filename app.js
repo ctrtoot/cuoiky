@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const path = require("path");
 
 const authRoutes = require("./routes/authRoutes");
 const accountRoutes = require("./routes/accountRoutes");
@@ -165,6 +166,12 @@ app.use(notificationRoutes);
 app.use(maintenanceRoutes);
 
 app.use(residentPortalRoutes);
+
+app.use(
+    express.static(
+        path.join(__dirname, "public")
+    )
+);
 
 /* =========================
    DASHBOARD

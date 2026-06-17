@@ -27,19 +27,31 @@ router.get("/maintenance", async(req,res)=>{
 
 router.post("/maintenance/add", async(req,res)=>{
 
+    const request =
     await Maintenance.create({
 
         title:req.body.title,
 
         category:req.body.category,
 
+        description:req.body.description,
+
         priority:req.body.priority,
 
-        location:req.body.location,
+        status:"Pending",
 
-        resident:req.body.resident
+        residentName:req.body.residentName,
+
+        apartment:req.body.apartment
 
     });
+
+    const io = req.app.get("io");
+
+    io.emit(
+        "new_maintenance",
+        request
+    );
 
     res.redirect("/maintenance");
 
@@ -66,34 +78,6 @@ router.post("/maintenance/status/:id", async(req,res)=>{
 
     io.emit(
         "maintenance_updated",
-        request
-    );
-
-    res.redirect("/maintenance");
-
-});
-
-router.post("/maintenance/add", async(req,res)=>{
-
-    const request =
-    await Maintenance.create({
-
-        title:req.body.title,
-
-        category:req.body.category,
-
-        priority:req.body.priority,
-
-        location:req.body.location,
-
-        resident:req.body.resident
-
-    });
-
-    const io = req.app.get("io");
-
-    io.emit(
-        "new_maintenance",
         request
     );
 

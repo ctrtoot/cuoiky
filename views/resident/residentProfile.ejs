@@ -43,25 +43,28 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
                 src="<%= user.avatar || '/images/default-avatar.png' %>"
                 class="avatar-img">
 
-                <form
-                action="/public/images"
-                method="POST"
-                enctype="multipart/form-data">
+ <form
+    id="avatarForm"
+    action="/resident/profile/avatar"
+    method="POST"
+    enctype="multipart/form-data">
 
-                    <input
-                        type="file"
-                        name="avatar"
-                        class="avatar-input"
-                        required>
+    <input
+        type="file"
+        id="avatarInput"
+        name="avatar"
+        accept="image/*"
+        hidden>
 
-                    <button
-                    class="btn-primary">
+    <label
+        for="avatarInput"
+        class="avatar-camera">
 
-                        Đổi Avatar
+        <i class="fa-solid fa-camera"></i>
 
-                    </button>
+    </label>
 
-                </form>
+</form>
 
             </div>
 
@@ -231,9 +234,22 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     </div>
 
 </div>
-```
 
 </div>
+
+<script>
+document
+.getElementById("avatarInput")
+.addEventListener("change", function(){
+
+    if(this.files.length > 0){
+        document
+        .getElementById("avatarForm")
+        .submit();
+    }
+
+});
+</script>
 
 </body>
 </html>

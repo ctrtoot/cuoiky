@@ -1,34 +1,31 @@
-const mongoose = require("mongoose");
+router.post("/maintenance/add", async(req,res)=>{
 
-const maintenanceSchema =
-new mongoose.Schema({
+    const request =
+    await Maintenance.create({
 
-    title:String,
+        title:req.body.title,
 
-    category:String,
+        category:req.body.category,
 
-    description:String,
+        description:req.body.description || "",
 
-    priority:String,
+        priority:req.body.priority,
 
-    status:String,
+        status:"Pending",
 
-    residentName:String,
+        residentName:req.body.residentName || "",
 
-    apartment:String,
+        apartment:req.body.apartment || ""
 
-    createdAt:{
+    });
 
-        type:Date,
+    const io = req.app.get("io");
 
-        default:Date.now
+    io.emit(
+        "new_maintenance",
+        request
+    );
 
-    }
+    res.redirect("/maintenance");
 
 });
-
-module.exports =
-mongoose.model(
-    "Maintenance",
-    maintenanceSchema
-);

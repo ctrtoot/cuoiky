@@ -38,23 +38,47 @@
 
             <div class="profile-top">
 
-    <div class="profile-avatar">
+<div class="profile-avatar">
 
-    <% if(user.avatar){ %>
+    <form
+        id="avatarForm"
+        action="/account/avatar"
+        method="POST"
+        enctype="multipart/form-data">
 
-        <img
-        src="<%= user.avatar %>"
-        alt="Avatar">
+        <% if(user.avatar){ %>
 
-    <% } else { %>
+            <img
+                src="<%= user.avatar %>"
+                alt="Avatar"
+                class="avatar-image">
 
-        <div class="avatar-circle">
+        <% } else { %>
 
-            <%= user.fullName.charAt(0).toUpperCase() %>
+            <div class="avatar-circle">
 
-        </div>
+                <%= user.fullName.charAt(0).toUpperCase() %>
 
-    <% } %>
+            </div>
+
+        <% } %>
+
+        <input
+            type="file"
+            id="avatarInput"
+            name="avatar"
+            accept="image/*"
+            hidden>
+
+        <label
+            for="avatarInput"
+            class="avatar-upload-btn">
+
+            <i class="fa-solid fa-camera"></i>
+
+        </label>
+
+    </form>
 
 </div>
 
@@ -76,7 +100,7 @@
 
 </div>
 
-            <hr>
+            <div class="account-divider"></div>
 
             <form
                 action="/account/update"
@@ -122,9 +146,7 @@
                 <button
                     type="submit"
                     class="btn-primary">
-
-                    Chỉnh sửa thông tin
-
+                    Lưu thay đổi
                 </button>
 
             </form>
@@ -277,9 +299,22 @@
     </div>
 
 </main>
-```
 
 </div>
+
+<script>
+document
+.getElementById("avatarInput")
+.addEventListener("change", function () {
+
+    if (this.files.length > 0) {
+        document
+        .getElementById("avatarForm")
+        .submit();
+    }
+
+});
+</script>
 
 </body>
 

@@ -71,8 +71,7 @@ function residentOnly(req,res,next){
    DASHBOARD
 ========================= */
 
-router.get(
-"/resident/dashboard",
+router.get("/resident/dashboard",
 residentOnly,
 async(req,res)=>{
 
@@ -93,9 +92,7 @@ async(req,res)=>{
 
         const bills =
         await Bill.find({
-
-            apartment:resident.apartment
-
+            apartment: resident.apartment
         })
         .sort({createdAt:-1})
         .limit(5);
@@ -204,9 +201,7 @@ async(req,res)=>{
    BILLS
 ========================= */
 
-router.get(
-"/resident/bills",
-async(req,res)=>{
+router.get("/resident/bills", async(req,res)=>{
 
     let resident =
     await Resident.findOne({
@@ -230,10 +225,7 @@ async(req,res)=>{
 
     const bills =
     await Bill.find({
-
-        apartmentCode:
-        resident.apartment
-
+        apartment: resident.apartment
     });
 
     let outstanding = 0;

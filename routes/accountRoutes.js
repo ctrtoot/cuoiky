@@ -1,10 +1,44 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 
 const router = express.Router();
 
 const User = require("../models/User");
+const uploadDir = path.join(
+    __dirname,
+    "../public/uploads/avatars"
+);
 
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, {
+        recursive: true
+    });
+}
+
+const storage = multer.diskStorage({
+
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
+    },
+
+    filename: (req, file, cb) => {
+
+        cb(
+            null,
+            Date.now() +
+            path.extname(file.originalname)
+        );
+
+    }
+
+});
+
+const upload = multer({
+    storage
+});
 /* ACCOUNT PAGE */
 
 router.get("/account", async(req,res)=>{
@@ -214,5 +248,49 @@ async(req,res)=>{
     }
 
 });
+
+router.post(
+    "/account/avatar",
+    upload.single("avatar"),
+    async (req, res) => {
+
+        try {
+
+            const avatarPath =
+                "/uploads/avatars/" +
+                req.file.filename;
+
+            const updatedUser =
+                await User.findByIdAndUpdate(
+
+                    req.session.user._id,
+
+                    {
+                        avatar: avatarPath
+                    },
+
+                    {
+                        new: true
+                    }
+
+                );
+
+            req.session.user =
+                updatedUser;
+
+            res.redirect("/account");
+
+        } catch (error) {
+
+            console.log(error);
+
+            res.send(
+                "Lỗi cập nhật avatar"
+            );
+
+        }
+
+    }
+);
 
 module.exports = router;

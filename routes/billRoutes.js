@@ -69,7 +69,7 @@ router.post("/bills/add", async(req,res)=>{
 
     const bill = await Bill.create({
 
-        apartmentCode:req.body.apartmentCode,
+        apartment:req.body.apartmentCode,
 
         month:req.body.month,
 
@@ -115,7 +115,7 @@ router.post("/billing/edit/:id",async(req,res)=>{
 
         {
 
-            apartmentCode:req.body.apartmentCode,
+            apartment:req.body.apartmentCode,
 
             month:req.body.month,
 
