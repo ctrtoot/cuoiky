@@ -90,13 +90,9 @@ router.post("/login", async(req,res)=>{
 
     try{
 
-        console.log("LOGIN EMAIL =", req.body.email);
-
         const user = await User.findOne({
             email:req.body.email
         });
-
-        console.log("FOUND USER =", user);
 
         if(!user){
             return res.send("Email không tồn tại");
