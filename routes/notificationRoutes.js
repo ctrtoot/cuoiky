@@ -30,14 +30,10 @@ router.post("/notifications/add", async(req,res)=>{
     const notification = await Notification.create({
 
         title:req.body.title,
-
         message:req.body.message,
-
         type:req.body.type
 
     });
-
-    /* REALTIME */
 
     const io = req.app.get("io");
 
@@ -45,6 +41,8 @@ router.post("/notifications/add", async(req,res)=>{
         "new_notification",
         notification
     );
+
+    res.redirect("/notifications");
 
 });
 

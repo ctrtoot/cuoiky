@@ -228,7 +228,7 @@ value="Pending"
 ? "selected"
 : "" %>
 >
-Pending
+Chờ Xử Lý
 </option>
 
 <option
@@ -237,7 +237,7 @@ value="In Progress"
 ? "selected"
 : "" %>
 >
-In Progress
+Đang Xử Lý
 </option>
 
 <option
@@ -246,7 +246,7 @@ value="Completed"
 ? "selected"
 : "" %>
 >
-Completed
+hoàn Thành
 </option>
 
 </select>
@@ -266,6 +266,45 @@ Completed
 </div>
 
 </div>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+
+const socket = io();
+
+/* CÓ YÊU CẦU BẢO TRÌ MỚI */
+
+socket.on(
+    "new_maintenance",
+    (request)=>{
+
+        alert(
+            "Yêu cầu bảo trì mới: " +
+            request.title
+        );
+
+        location.reload();
+
+    }
+);
+
+/* CẬP NHẬT TRẠNG THÁI */
+
+socket.on(
+    "maintenance_updated",
+    (request)=>{
+
+        alert(
+            "Trạng thái bảo trì đã thay đổi"
+        );
+
+        location.reload();
+
+    }
+);
+
+</script>
 
 </body>
 

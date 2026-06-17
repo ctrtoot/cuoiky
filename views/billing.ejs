@@ -254,7 +254,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
                                 <button class="pay-btn">
 
-                                    Mark Paid
+                                    Đánh Dấu Đã Thanh Toán
 
                                 </button>
 
@@ -389,6 +389,62 @@ function toggleModal(){
     .toggle("show");
 
 }
+
+</script>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+
+const socket = io();
+
+/* HÓA ĐƠN MỚI */
+
+socket.on(
+    "new_bill",
+    (bill)=>{
+
+        alert(
+            "Có hóa đơn mới cho căn hộ " +
+            bill.apartmentCode
+        );
+
+        location.reload();
+
+    }
+);
+
+/* HÓA ĐƠN ĐƯỢC SỬA */
+
+socket.on(
+    "bill_updated",
+    ()=>{
+
+        location.reload();
+
+    }
+);
+
+/* TRẠNG THÁI THANH TOÁN THAY ĐỔI */
+
+socket.on(
+    "bill_status_updated",
+    (bill)=>{
+
+        if(
+            bill.status === "paid"
+        ){
+
+            alert(
+                "Một hóa đơn vừa được thanh toán"
+            );
+
+        }
+
+        location.reload();
+
+    }
+);
 
 </script>
 

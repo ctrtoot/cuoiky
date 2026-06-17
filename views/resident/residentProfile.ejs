@@ -23,7 +23,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 <div class="main">
 
-```
 <h1 class="page-title">
 
     Hồ Sơ Cá Nhân
@@ -45,14 +44,15 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
                 class="avatar-img">
 
                 <form
-                action="/resident/profile/avatar"
+                action="/public/images"
                 method="POST"
                 enctype="multipart/form-data">
 
                     <input
-                    type="file"
-                    name="avatar"
-                    required>
+                        type="file"
+                        name="avatar"
+                        class="avatar-input"
+                        required>
 
                     <button
                     class="btn-primary">
